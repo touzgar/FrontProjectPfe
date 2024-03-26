@@ -1,0 +1,134 @@
+<mat-card class="cardWithShadow">
+  <mat-card-content class="p-24">
+    <div class="row justify-content-between">
+      <div class="col-lg-4">
+        <mat-form-field appearance="outline" class="w-100 hide-hint">
+          <input
+            matInput
+            placeholder="Search Team"
+            (keyup)="searchTeams($event)"
+          />
+          <mat-icon matSuffix>
+            <i-tabler name="search" class="icon-20"></i-tabler>
+          </mat-icon>
+        </mat-form-field>
+      </div>
+      <div class="col-lg-8 d-flex flex-column align-items-end">
+        <div style="display: flex; gap: 20px;">
+          <button mat-flat-button color="primary" (click)="openDialog('Add', {})">
+            <mat-icon>group_add</mat-icon>
+            Add Team
+          </button>
+          <button mat-raised-button color="primary" (click)="openAddCoachDialog()">
+            <mat-icon>person_add</mat-icon>
+            Add Coach
+          </button>
+          <button mat-raised-button color="primary" (click)="openAddPlayersDialog()">
+            <mat-icon>person_add</mat-icon>
+            Add Players
+          </button>
+        </div>
+        <div style="display: flex; gap: 20px; margin-top: 20px;">
+          <!-- Container for Remove Coach and Remove Player buttons next to each other -->
+          <button mat-raised-button color="primary" (click)="openRemoveCoachDialog()">
+            <mat-icon>person_remove</mat-icon>
+            Remove Coach
+          </button>
+          <button mat-raised-button color="primary" (click)="openRemovePlayersDialog()">
+            <mat-icon>person_remove</mat-icon>
+            Remove Player
+          </button>
+        </div>
+
+      </div>
+    
+    </div>
+  </mat-card-content>
+</mat-card>
+<mat-card class="cardWithShadow">
+  <mat-card-content class="p-24">
+    <div class="table-responsive">
+      <table mat-table [dataSource]="dataSource" class="w-100">
+        <ng-container matColumnDef="TeamId">
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">TeamId</th>
+          <td mat-cell *matCellDef="let team">{{ team.idTeam }}</td>
+        </ng-container>
+
+        
+
+        <ng-container matColumnDef="teamName">
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+            teamName
+          </th>
+          <td mat-cell *matCellDef="let team" class="f-s-14">{{ team.teamName }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="description">
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+            description
+          </th>
+          <td mat-cell *matCellDef="let team" class="f-s-14">
+            {{ team.description }}
+          </td>
+        </ng-container>
+
+        <ng-container matColumnDef="dateCreation">
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+            dateCreation
+          </th>
+          <td mat-cell *matCellDef="let team" class="f-s-14">
+            {{ team.dateCreation | date}}
+          </td>
+        </ng-container>
+       
+
+        <ng-container matColumnDef="coachName">
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+            coachName
+          </th>
+          <td mat-cell *matCellDef="let team" class="f-s-14">
+            {{ getCoachNamesForTeam(team) }}
+        </td>
+         
+          </ng-container>
+          <ng-container matColumnDef="playerName">
+            <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+              playerName
+            </th>
+            <td mat-cell *matCellDef="let team" class="f-s-14">
+              {{  getPlayerNamesForTeam(team) }}
+          </td>
+           
+            </ng-container>
+          
+      
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef class="f-s-16 f-w-600">
+            Action
+          </th>
+          <td mat-cell *matCellDef="let element" class="action-link">
+            <a
+              (click)="openDialog('Update', element)"
+              class="m-r-10 cursor-pointer"
+              ><i-tabler name="edit" class="icon-18"></i-tabler
+            ></a>
+            <a
+              (click)="openDialog('Delete', element)"
+              class="m-r-10 cursor-pointer"
+            >
+              <i-tabler name="trash" class="icon-18"></i-tabler>
+            </a>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+      </table>
+      <mat-paginator
+        [pageSizeOptions]="[5, 10, 20,30]"
+        showFirstLastButtons
+      ></mat-paginator>
+    </div>
+  </mat-card-content>
+</mat-card>
+
